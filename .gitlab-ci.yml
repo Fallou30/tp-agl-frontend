@@ -1,0 +1,21 @@
+stages:
+  - build
+  - test
+  - deploy
+
+# Étape 1 : Build de l'image Docker du frontend
+build-frontend:
+  stage: build
+  script:
+    - docker build -t falloutall/frontend_car .
+  only:
+    - main
+
+# Étape 2 : Pousser l'image Docker sur Docker Hub
+deploy-frontend:
+  stage: deploy
+  script:
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+    - docker push falloutall/frontend_car
+  only:
+    - main
